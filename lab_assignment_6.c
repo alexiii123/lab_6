@@ -1,60 +1,29 @@
 #include <stdio.h>
 
-int search(int numbers[], int low, int high, int value) 
+int search(int numbers[], int low, int high, int value)
 {
-	return -1;
+if (high >= low)
+{
+int m = low + (high - low)/2;
+if (numbers[m] == value)
+return m;
+if (numbers[m] > value)
+return search(numbers, low, m-1, value);
+return search(numbers, m+1, high, value);
 }
-
-void printArray(int numbers[], int sz)
-{
-	int i;
-	printf("Number array : ");
-	for (i = 0;i<sz;++i)
-	{
-		printf("%d ",numbers[i]);
-	}
-	printf("\n");
+return -1;
 }
 
 int main(void)
 {
-	int i, numInputs;
-	char* str;
-	float average;
-	int value;
-	int index;
-	int* numArray = NULL;
-	int countOfNums;
-	FILE* inFile = fopen("input.txt","r");
-
-	fscanf(inFile, " %d\n", &numInputs);
-	
-	while (numInputs-- > 0)
-	{
-		fscanf(inFile, " %d\n", &countOfNums);
-		numArray = (int *) malloc(countOfNums * sizeof(int));
-		average = 0;
-		for (i = 0; i < countOfNums; i++)
-		{
-			fscanf(inFile," %d", &value);
-			numArray[i] = value;
-			average += numArray[i];
-		}
-
-		printArray(numArray, countOfNums);
-		value = average / countOfNums;
-		index = search(numArray, 0, countOfNums - 1, value);
-		if (index >= 0)
-		{
-			printf("Item %d exists in the number array at index %d!\n",value, index);
-		}
-		else
-		{
-			printf("Item %d does not exist in the number array!\n", value);
-		}
-
-		free(numArray);
-	}
-
-	fclose(inFile);
+int numbers[] = {4,8,12,16,20,24,28};
+int high= sizeof(numbers)/ sizeof(numbers[0]);
+int low=0;
+int value = 16;
+int getRes = search(numbers, low, high-1, value);
+if(getRes>0)
+printf("The numbers is present in position: %d",getRes);
+else
+printf("The numbers is not present");
+return 0;
 }
